@@ -175,7 +175,6 @@ class Shows{
 
 // initializer
     init(){
-        console.log('init')
         this.loadCards(this.data)
     }
 
@@ -208,7 +207,7 @@ class Shows{
             <footer class="card-footer">
             <button class="btn btn-danger text-capitalize favoriteBtns" id="${obj.id}">${obj.isFavorite ? 'unfavorite' : 'favorite'}
             </button>
-            <span id="favorite">${obj.isFavorite ? '❤️' : '💔'}</span>
+            <span class="emojis" id="favorite" data-span="${obj.id}">${obj.isFavorite ? '❤️' : '💔'}</span>
             </footer>
 
         `
@@ -219,6 +218,7 @@ class Shows{
 
     //loadCards
     loadCards(arr){
+        this.row.innerHTML = ''
         arr.forEach(item =>this.buildCard(item))
     }
 
@@ -229,14 +229,38 @@ class Shows{
 
         //loop through array
         //if id of button === id of object in array, isFavorite = !isFavorite
+
+        const emojis = document.querySelectorAll('.emojis')
         for(let item of arr){
             if(el.id == item.id){
                 item.isFavorite = !item.isFavorite
-                console.log(item.isFavorite)
+                el.innerText = item.isFavorite ? 'unfavorite' : 'favorite'
+
+                emojis.forEach(emoji =>{
+                    if(emoji.getAttribute('data-span') == el.id){
+                        emoji.innerText = item.isFavorite ? '❤️' : '💔'
+                    }
+                })
             }
         }
     }
+
+    filter(el){
+        const filter = el.getAttribute('data-sort')
+        let copy
+
+        if(filter == 'genre'){
+            const genre = document.getElementById('genreSelect').value
+            copy = this.data.filter(item => Object.values(item.genre).includes(genre))
+        } else {
+            const network = document.getElementById('networkSelect').value
+            copy = this.data.filter(item => item.network == network)
+        }
+        this.loadCards(copy)
+    }
 }
+
+
 
 const action = new Shows()
 
@@ -249,3 +273,17 @@ buttons.forEach(button =>{
         action.toggleFavorite(button, action.data)
     })
 })
+
+const genreBtn = document.getElementById('genreBtn')
+genreBtn.addEventListener('click', (e)=>{
+    e.preventDefault()
+    action.filter(genreBtn)
+})
+
+
+const networkBtn = document.getElementById('networkBtn')
+networkBtn.addEventListener('click',(e)=>{
+    e.preventDefault()
+    action.filter(networkBtn)
+})
+

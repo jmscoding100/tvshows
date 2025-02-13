@@ -15,6 +15,36 @@
 
     <main class="main" id="main">
         <div class="container">
+            <div class="row">
+                <div class="col-4 mb-3">
+                    <form action="#" class="form d-flex" id="networkForm">
+                        <select class="form-select select" name="genre" id="genreSelect">
+                            <option selected value="">--Genre--</option>
+                            <option value="comedy">Comedy</option>
+                            <option value="fantasy">Fantasy</option>
+                            <option value="action">Action</option>
+                            <option value="adventure">Adventure</option>
+                            <option value="family">Family</option>
+                            <option value="sci-fi">Sci-fi</option>
+                            <option value="music">Music</option>
+                            <option value="mystery">Mystery</option>
+                        </select>
+                        <button class="btn btn-danger" id="genreBtn" data-sort="genre">Sort</button>
+                    </form>
+                </div>
+                <div class="col-4 mb-3 offset-4">
+                    <form action="#" class="form d-flex" id="networkForm">
+                        <select class="form-select select" name="network" id="networkSelect">
+                            <option selected value="">--Network--</option>
+                            <option value="cartoon network">Cartoon Network</option>
+                            <option value="pbs">PBS</option>
+                            <option value="nickelodeon">Nickelodeon</option>
+                            <option value="disney">Disney</option>
+                        </select>
+                        <button class="btn btn-warning" id="networkBtn" data-sort="network">Sort</button>
+                    </form>
+                </div>
+            </div>
             <row class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="row"></row>
         </div>
     </main>
