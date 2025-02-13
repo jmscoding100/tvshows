@@ -44,7 +44,7 @@ class Shows{
                 yearEnd:new Date(),
                 seasonCount: 7,
                 episodeCount: 170,
-                network:pbs,
+                network: 'pbs',
                 creator: 'kratt brothers',
                 isFavorite:false
             },
@@ -169,5 +169,83 @@ class Shows{
                 isFavorite:false
             },
         ]
+
+        this.row = document.getElementById('row')
+    }
+
+// initializer
+    init(){
+        console.log('init')
+        this.loadCards(this.data)
+    }
+
+// buildCard
+    buildCard(obj){
+        const row = this.row
+
+        const column = document.createElement('div')
+        column.classList.add('col')
+
+        const card = document.createElement('div')
+        card.classList.add('card', 'h-100')
+        card.setAttribute('id', `card-${obj.id}`)
+
+        card.innerHTML = `
+            <header class="card-header">
+                <h2 class="card-heading text-capitalize">${obj.title}</h2>
+            </header>
+            <section class="card-body">
+            <p class="card-text">
+            <span>${obj.yearStart.toDateString()}</span> - 
+            <span>${obj.yearEnd.toDateString()}</span>
+            </p>
+
+            <p class="card-text">Episodes: ${obj.episodeCount}</p>
+            <p class="card-text">Seasons: ${obj.seasonCount}</p>
+            <p class="card-text text-capitalize">${obj.network}</p>
+            <p class="card-text text-capitalize">${obj.creator}</p>
+            </section>
+            <footer class="card-footer">
+            <button class="btn btn-danger text-capitalize favoriteBtns" id="${obj.id}">${obj.isFavorite ? 'unfavorite' : 'favorite'}
+            </button>
+            <span id="favorite">${obj.isFavorite ? '❤️' : '💔'}</span>
+            </footer>
+
+        `
+
+        column.appendChild(card)
+        row.appendChild(column)
+    }
+
+    //loadCards
+    loadCards(arr){
+        arr.forEach(item =>this.buildCard(item))
+    }
+
+    //toggleFavorite
+    toggleFavorite(el, arr){
+        // console.log('click')
+        // console.log(el.id)
+
+        //loop through array
+        //if id of button === id of object in array, isFavorite = !isFavorite
+        for(let item of arr){
+            if(el.id == item.id){
+                item.isFavorite = !item.isFavorite
+                console.log(item.isFavorite)
+            }
+        }
     }
 }
+
+const action = new Shows()
+
+action.init()
+
+const buttons = document.querySelectorAll('.favoriteBtns')
+
+buttons.forEach(button =>{
+    button.addEventListener('click', ()=>{
+        action.toggleFavorite(button, action.data)
+    })
+})
